@@ -1,6 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { baseUrl } from "../../url"
+import axios from 'axios'
+
+
 
 export default function AddExperience() {
+
+    const [formdata, setFormdata] = useState({
+        tripName: "",
+        startDateOfJourney: "",
+        endDateOfJourney: "",
+        nameOfHotels: "",
+        placesVisited: "",
+        totalCost: 0,
+        tripType: "",
+        experience: "",
+        image: "",
+        shortDescription: "",
+        featured: false
+    })
+
+    const submitForm = () => {
+        console.log(formdata)
+        axios.post(`${baseUrl}/trip`,formdata)
+    }
+
     return (
         <div style={{ margin: "2%" }}>
             <div class="mb-3">
@@ -11,8 +35,10 @@ export default function AddExperience() {
                     type="text"
                     class="form-control"
                     id="tripName"
-                    placeholder="Add your Trip Name">
-                </input>
+                    placeholder="Add your Trip Name"
+                    value={formdata.tripName}
+                    onChange={(e) => setFormdata({ ...formdata, tripName: e.target.value })}
+                ></input>
             </div>
             <div class="mb-3">
                 <label for="tripDate" class="form-label">
@@ -23,13 +49,19 @@ export default function AddExperience() {
                         <input
                             type="date"
                             class="form-control"
-                            id="startDate"></input>
+                            id="startDate"
+                            value={formdata.startDateOfJourney}
+                            onChange={(e) => setFormdata({ ...formdata, startDateOfJourney: e.target.value })}
+                        ></input>
                     </div>
                     <div class="col -6">
                         <input
                             type="date"
                             class="form-control"
-                            id="endDate"></input>
+                            id="endDate"
+                            value={formdata.endDateOfJourney}
+                            onChange={(e) => setFormdata({ ...formdata, endDateOfJourney: e.target.value })}
+                            ></input>
                     </div>
                 </div>
             </div>
@@ -41,8 +73,10 @@ export default function AddExperience() {
                     type="text"
                     class="form-control"
                     id="nameOfHotels"
-                    placeholder="Add your Hotel Name">
-                </input>
+                    placeholder="Add your Hotel Name"
+                    value={formdata.nameOfHotels}
+                    onChange={(e) => setFormdata({ ...formdata, nameOfHotels: e.target.value })}
+                    ></input>
             </div>
             <div class="mb-3">
                 <div class="row">
@@ -50,7 +84,9 @@ export default function AddExperience() {
                         <label for="tripType" class="form-label">
                             Trip Type
                         </label>
-                        <select class="form-select" id="tripType" aria-label="tripType">
+                        <select class="form-select" id="tripType" aria-label="tripType" 
+                        value={formdata.tripType}
+                        onChange={(e) => setFormdata({ ...formdata, tripType: e.target.value })}>
                             <option selected value="backpacking">Backpacking</option>
                             <option value="leisure">Leisure</option>
                             <option value="business">Business</option>
@@ -65,8 +101,10 @@ export default function AddExperience() {
                             type="number"
                             class="form-control"
                             id="totalCost"
-                            placeholder="999999">
-                        </input>
+                            placeholder="999999"
+                            value={formdata.totalCost}
+                            onChange={(e) => setFormdata({ ...formdata, totalCost: e.target.value })}
+                        ></input>
                     </div>
                 </div>
             </div>
@@ -78,19 +116,27 @@ export default function AddExperience() {
                     type="text"
                     class="form-control"
                     id="placesVisited"
-                    placeholder="Delhi, Paris, London, etc..">
-                </input>
+                    placeholder="Delhi, Paris, London, etc.."
+                    value={formdata.placesVisited}
+                    onChange={(e) => setFormdata({ ...formdata, placesVisited: e.target.value })}
+                ></input>
             </div>
             <div class="mb-3">
                 <label for="featured" class="form-label">
                     Featured Trip?
                 </label>
                 <div class="form-check">
-                    <input type="radio" class="form-check-input" id="true" value={true}></input>
+                    <input type="radio" class="form-check-input" id="true" value={true}
+                    onChange={(e) => setFormdata({ ...formdata, featured: JSON.parse(e.target.value) })}
+                    checked ={formdata.featured === true}
+                    ></input>
                     <label>True</label>
                 </div>
                 <div class="form-check">
-                    <input type="radio" class="form-check-input" id="false" value={false}></input>
+                    <input type="radio" class="form-check-input" id="false" value={false}
+                    onChange={(e) => setFormdata({ ...formdata, featured: JSON.parse(e.target.value) })}
+                    checked ={formdata.featured === false}
+                    ></input>
                     <label>Flase</label>
                 </div>
 
@@ -103,8 +149,10 @@ export default function AddExperience() {
                     type="text"
                     class="form-control"
                     id="image"
-                    placeholder="http://xyz.com/image.png">
-                </input>
+                    placeholder="http://xyz.com/image.png"
+                    value={formdata.image}
+                    onChange={(e) => setFormdata({ ...formdata, image: e.target.value })}
+                    ></input>
             </div>
             <div class="mb-3">
                 <label for="shortDescription" class="form-label">
@@ -114,8 +162,11 @@ export default function AddExperience() {
                     class="form-control"
                     id="shortDescription"
                     rows="2"
-                    placeholder="Write a Short Description..">
-                </textarea>
+                    placeholder="Write a Short Description.."
+                    value={formdata.shortDescription}
+                    onChange={(e) => setFormdata({ ...formdata, shortDescription: e.target.value })}
+                    
+                ></textarea>
             </div>
             <div class="mb-3">
                 <label for="experience" class="form-label">
@@ -125,11 +176,14 @@ export default function AddExperience() {
                     class="form-control"
                     id="experience"
                     rows="5"
-                    placeholder="Write complete Details about your experience in your trip..">
-                </textarea>
+                    placeholder="Write complete Details about your experience in your trip.."
+                    value={formdata.experience}
+                    onChange={(e) => setFormdata({ ...formdata, experience: e.target.value })}
+                    
+                ></textarea>
             </div>
             <div class="mb-3" style={{ textAlign: "center" }}>
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary" onClick={submitForm}>
                     Submit
                 </button>
 
@@ -138,6 +192,6 @@ export default function AddExperience() {
 
         </div>
 
-        
+
     )
 }
